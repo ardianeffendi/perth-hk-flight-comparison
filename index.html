@@ -5,171 +5,171 @@
     <style>
       * { transition: all 0.3s ease; }
       body { background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%); }
-      
+
       .dash { padding: 1rem 0; font-size: 14px; }
-      
+
       .section-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 8px; }
-      
+
       .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-      
-      .card { 
-        background: var(--color-background-primary); 
-        border: 0.5px solid var(--color-border-tertiary); 
-        border-radius: var(--border-radius-lg); 
+
+      .card {
+        background: var(--color-background-primary);
+        border: 0.5px solid var(--color-border-tertiary);
+        border-radius: var(--border-radius-lg);
         padding: 1rem 1.25rem;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         cursor: pointer;
         transform: translateY(0);
       }
-      
-      .card:hover { 
+
+      .card:hover {
         transform: translateY(-4px);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         border-color: var(--color-border-primary);
       }
-      
-      .card.featured { 
+
+      .card.featured {
         border: 2px solid #185FA5;
         background: linear-gradient(135deg, #f0f7ff 0%, #e6f1fb 100%);
       }
-      
+
       .card.featured:hover {
         box-shadow: 0 8px 24px rgba(24, 95, 165, 0.15);
       }
-      
+
       .airline-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-      
-      .airline-icon { 
-        width: 36px; 
-        height: 36px; 
-        border-radius: var(--border-radius-md); 
-        display: flex; 
-        align-items: center; 
+
+      .airline-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--border-radius-md);
+        display: flex;
+        align-items: center;
         justify-content: center;
         font-size: 18px;
       }
-      
+
       .airline-name { font-size: 15px; font-weight: 600; color: var(--color-text-primary); }
-      
+
       .airline-sub { font-size: 12px; color: var(--color-text-secondary); }
-      
-      .row { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: flex-start; 
-        padding: 9px 0; 
-        border-bottom: 0.5px solid var(--color-border-tertiary); 
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 9px 0;
+        border-bottom: 0.5px solid var(--color-border-tertiary);
         gap: 8px;
       }
-      
+
       .row:hover { background-color: rgba(0, 0, 0, 0.02); padding-left: 4px; padding-right: 4px; }
-      
+
       .row:last-child { border-bottom: none; }
-      
+
       .row-label { color: var(--color-text-secondary); font-size: 13px; flex-shrink: 0; }
-      
+
       .row-val { font-size: 13px; color: var(--color-text-primary); text-align: right; font-weight: 500; }
-      
-      .badge { 
-        display: inline-block; 
-        font-size: 11px; 
-        padding: 4px 10px; 
-        border-radius: 99px; 
-        font-weight: 600; 
+
+      .badge {
+        display: inline-block;
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 99px;
+        font-weight: 600;
         white-space: nowrap;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
       }
-      
+
       .badge-yes { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); color: #1B5E20; }
       .badge-no { background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%); color: #C62828; }
       .badge-info { background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); color: #0D47A1; }
       .badge-warn { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); color: #E65100; }
       .badge-best { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); color: #1B5E20; font-weight: 700; }
-      
+
       .price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; }
       .price-row-label { font-size: 13px; color: var(--color-text-secondary); }
       .price-row-val { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
-      
-      .price-total { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: baseline; 
-        padding: 12px 0; 
-        border-top: 2px solid var(--color-border-secondary); 
+
+      .price-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 12px 0;
+        border-top: 2px solid var(--color-border-secondary);
         margin-top: 8px;
         background: linear-gradient(90deg, rgba(0,0,0,0.02) 0%, transparent 100%);
         padding: 12px 8px;
         border-radius: 6px;
       }
-      
+
       .price-total-label { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
       .price-total-val { font-size: 20px; font-weight: 700; }
-      
+
       .green-text { color: #1B5E20; font-weight: 600; }
       .blue-text { color: #0D47A1; font-weight: 600; }
       .amber-text { color: #E65100; font-weight: 600; }
-      
-      .verdict { 
+
+      .verdict {
         background: linear-gradient(135deg, var(--color-background-secondary) 0%, rgba(0,0,0,0.02) 100%);
-        border-radius: var(--border-radius-lg); 
-        padding: 1.25rem; 
+        border-radius: var(--border-radius-lg);
+        padding: 1.25rem;
         margin-top: 4px;
         border-left: 4px solid #185FA5;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
       }
-      
-      .verdict-row { 
-        display: flex; 
-        gap: 12px; 
-        align-items: flex-start; 
+
+      .verdict-row {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
         margin-bottom: 12px;
         padding: 8px;
         border-radius: 6px;
         transition: background-color 0.2s ease;
       }
-      
+
       .verdict-row:hover { background-color: rgba(0, 0, 0, 0.04); }
-      
+
       .verdict-row:last-child { margin-bottom: 0; }
-      
+
       .verdict-icon { font-size: 18px; margin-top: 2px; flex-shrink: 0; }
-      
+
       .verdict-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
-      
-      .tabs { 
-        display: flex; 
-        gap: 8px; 
+
+      .tabs {
+        display: flex;
+        gap: 8px;
         margin-bottom: 16px;
         background: var(--color-background-secondary);
         padding: 4px;
         border-radius: var(--border-radius-md);
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
       }
-      
-      .tab { 
+
+      .tab {
         background: transparent;
         border: none;
-        border-radius: var(--border-radius-sm); 
-        padding: 8px 16px; 
-        font-size: 13px; 
+        border-radius: var(--border-radius-sm);
+        padding: 8px 16px;
+        font-size: 13px;
         cursor: pointer;
         font-weight: 500;
         color: var(--color-text-secondary);
         position: relative;
       }
-      
-      .tab:hover { 
+
+      .tab:hover {
         background-color: rgba(0, 0, 0, 0.04);
         color: var(--color-text-primary);
       }
-      
-      .tab.active { 
-        background: var(--color-background-primary); 
+
+      .tab.active {
+        background: var(--color-background-primary);
         color: #185FA5;
         font-weight: 600;
         box-shadow: 0 2px 8px rgba(24, 95, 165, 0.2);
       }
-      
+
       .tab.active::after {
         content: '';
         position: absolute;
@@ -180,58 +180,58 @@
         background: linear-gradient(90deg, #185FA5, #0D47A1);
         border-radius: 99px;
       }
-      
-      .panel { 
+
+      .panel {
         display: none;
         animation: fadeIn 0.3s ease-in;
       }
-      
+
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
       }
-      
+
       .panel.active { display: block; }
-      
-      .divider { 
-        border: none; 
-        border-top: 1px solid var(--color-border-tertiary); 
+
+      .divider {
+        border: none;
+        border-top: 1px solid var(--color-border-tertiary);
         margin: 14px 0;
         background: linear-gradient(90deg, transparent, var(--color-border-tertiary), transparent);
       }
-      
-      .highlight-box { 
+
+      .highlight-box {
         background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
         border-left: 4px solid #185FA5;
-        border-radius: var(--border-radius-md); 
-        padding: 14px 16px; 
-        margin-bottom: 16px; 
-        font-size: 13px; 
+        border-radius: var(--border-radius-md);
+        padding: 14px 16px;
+        margin-bottom: 16px;
+        font-size: 13px;
         color: #0D47A1;
         line-height: 1.6;
         box-shadow: 0 2px 8px rgba(24, 95, 165, 0.1);
       }
-      
-      .route-pill { 
-        display: inline-flex; 
-        align-items: center; 
-        gap: 6px; 
+
+      .route-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         background: linear-gradient(135deg, var(--color-background-secondary) 0%, rgba(0,0,0,0.04) 100%);
-        border-radius: 99px; 
-        padding: 6px 12px; 
-        font-size: 12px; 
+        border-radius: 99px;
+        padding: 6px 12px;
+        font-size: 12px;
         color: var(--color-text-secondary);
         font-weight: 500;
         border: 1px solid var(--color-border-tertiary);
       }
-      
+
       .route-pill:hover {
         background: linear-gradient(135deg, rgba(24, 95, 165, 0.1) 0%, rgba(13, 71, 161, 0.05) 100%);
         border-color: #185FA5;
       }
-      
-      @media(max-width: 500px) { 
-        .cards { grid-template-columns: 1fr; } 
+
+      @media(max-width: 500px) {
+        .cards { grid-template-columns: 1fr; }
         .tabs { flex-direction: column; }
         .tab { width: 100%; text-align: left; }
       }
@@ -266,8 +266,8 @@
             <div class="row"><span class="row-label">Base fare (return)</span><span class="row-val">$576.99</span></div>
             <div class="row"><span class="row-label">Baggage included?</span><span class="row-val"><span class="badge badge-no">No</span></span></div>
             <div class="row"><span class="row-label">Meals included?</span><span class="row-val"><span class="badge badge-no">No</span></span></div>
-            <div class="row"><span class="row-label">Stopover</span><span class="row-val">Kuala Lumpur (KLIA2)</span></div>
-            <div class="row"><span class="row-label">Layover (est.)</span><span class="row-val">~2–4 hrs</span></div>
+            <div class="row"><span class="row-label">Stopover</span><span class="row-val">Kuala Lumpur (KLIA)</span></div>
+            <div class="row"><span class="row-label">Layover (est.)</span><span class="row-val">~9 hrs 25mins</span></div>
             <div class="row"><span class="row-label">+ baggage only</span><span class="row-val amber-text">$776.99</span></div>
             <div class="row"><span class="row-label">+ full bundle</span><span class="row-val amber-text">$876.99</span></div>
           </div>
@@ -282,10 +282,10 @@
               </div>
             </div>
             <div class="row"><span class="row-label">Base fare (return)</span><span class="row-val blue-text"><strong>$736</strong></span></div>
-            <div class="row"><span class="row-label">Baggage included?</span><span class="row-val"><span class="badge badge-yes">Yes (25–30 kg)</span></span></div>
+            <div class="row"><span class="row-label">Baggage included?</span><span class="row-val"><span class="badge badge-yes">Yes (25 kgs)</span></span></div>
             <div class="row"><span class="row-label">Meals included?</span><span class="row-val"><span class="badge badge-yes">Yes</span></span></div>
             <div class="row"><span class="row-label">Stopover</span><span class="row-val">Singapore (Changi T3)</span></div>
-            <div class="row"><span class="row-label">Layover (est.)</span><span class="row-val">~2 hrs</span></div>
+            <div class="row"><span class="row-label">Layover (est.)</span><span class="row-val">~2 hrs 35mins</span></div>
             <div class="row"><span class="row-label">Total all-in</span><span class="row-val blue-text"><strong>$736</strong></span></div>
             <div class="row"><span class="row-label">Add-ons needed?</span><span class="row-val"><span class="badge badge-yes">Nothing</span></span></div>
           </div>
@@ -372,14 +372,15 @@
             <p class="section-label" style="margin-top:10px;">Outbound PER → HKG</p>
             <div class="row"><span class="row-label">Route</span><span class="row-val">PER → KUL → HKG</span></div>
             <div class="row"><span class="row-label">PER → KUL</span><span class="row-val">~5 hrs 40 mins</span></div>
-            <div class="row"><span class="row-label">Layover KUL</span><span class="row-val">~2–4 hrs</span></div>
+            <div class="row"><span class="row-label">Layover KUL</span><span class="row-val">~2 hrs 30 mins</span></div>
             <div class="row"><span class="row-label">KUL → HKG</span><span class="row-val">~3 hrs 40 mins</span></div>
-            <div class="row"><span class="row-label">Total trip time</span><span class="row-val">~14 hrs 35 mins</span></div>
+            <div class="row"><span class="row-label">Total trip time</span><span class="row-val">~12 hrs 15 mins</span></div>
             <p class="section-label" style="margin-top:12px;">Return HKG → PER</p>
             <div class="row"><span class="row-label">Route</span><span class="row-val">HKG → KUL → PER</span></div>
             <div class="row"><span class="row-label">HKG → KUL</span><span class="row-val">~4 hrs</span></div>
             <div class="row"><span class="row-label">Layover KUL</span><span class="row-val">6 hrs 55 mins</span></div>
             <div class="row"><span class="row-label">KUL → PER</span><span class="row-val">~5 hrs 35 mins</span></div>
+            <div class="row"><span class="row-label">Total trip time</span><span class="row-val">~16 hrs 30 mins</span></div>
             <div class="row" style="border:none"><span class="row-label">Terminal</span><span class="row-val"><span class="badge badge-warn">KLIA (budget)</span></span></div>
           </div>
 
