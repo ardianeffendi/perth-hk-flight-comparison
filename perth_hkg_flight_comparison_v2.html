@@ -1,0 +1,222 @@
+
+<h2 class="sr-only">Flight comparison dashboard: AirAsia vs Singapore Airlines, Perth to Hong Kong return</h2>
+
+<style>
+  .dash { padding: 1rem 0; font-size: 14px; }
+  .section-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 8px; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+  .card.featured { border: 2px solid #185FA5; }
+  .airline-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .airline-icon { width: 36px; height: 36px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; }
+  .airline-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .airline-sub { font-size: 12px; color: var(--color-text-secondary); }
+  .row { display: flex; justify-content: space-between; align-items: flex-start; padding: 7px 0; border-bottom: 0.5px solid var(--color-border-tertiary); gap: 8px; }
+  .row:last-child { border-bottom: none; }
+  .row-label { color: var(--color-text-secondary); font-size: 13px; flex-shrink: 0; }
+  .row-val { font-size: 13px; color: var(--color-text-primary); text-align: right; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 500; white-space: nowrap; }
+  .badge-yes { background: #EAF3DE; color: #3B6D11; }
+  .badge-no { background: #FCEBEB; color: #A32D2D; }
+  .badge-info { background: #E6F1FB; color: #185FA5; }
+  .badge-warn { background: #FAEEDA; color: #854F0B; }
+  .badge-best { background: #EAF3DE; color: #3B6D11; }
+  .price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; }
+  .price-row-label { font-size: 13px; color: var(--color-text-secondary); }
+  .price-row-val { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .price-total { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0 0; border-top: 0.5px solid var(--color-border-secondary); margin-top: 6px; }
+  .price-total-label { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .price-total-val { font-size: 18px; font-weight: 500; }
+  .green-text { color: #3B6D11; }
+  .blue-text { color: #185FA5; }
+  .amber-text { color: #854F0B; }
+  .verdict { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-top: 4px; }
+  .verdict-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .verdict-row:last-child { margin-bottom: 0; }
+  .verdict-icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+  .verdict-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 6px 14px; font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+  .tab.active { background: var(--color-background-primary); border-color: var(--color-border-primary); color: var(--color-text-primary); font-weight: 500; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 14px 0; }
+  .highlight-box { background: #E6F1FB; border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 16px; font-size: 13px; color: #0C447C; line-height: 1.5; }
+  .route-pill { display: inline-flex; align-items: center; gap: 4px; background: var(--color-background-secondary); border-radius: 99px; padding: 3px 10px; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+  @media(max-width: 500px) { .cards { grid-template-columns: 1fr; } }
+</style>
+
+<div class="dash">
+  <p style="font-size:13px; color:var(--color-text-secondary); margin:0 0 16px;">Perth (PER) ↔ Hong Kong (HKG) · Return · 1 adult · Economy · via Traveloka</p>
+
+  <div class="highlight-box">
+    <i class="ti ti-refresh" style="font-size:14px;vertical-align:-2px;margin-right:6px;" aria-hidden="true"></i>
+    Updated: Singapore Airlines confirmed at <strong>$736</strong> return (Traveloka). This significantly narrows the gap with AirAsia.
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('overview', event)">Overview</div>
+    <div class="tab" onclick="switchTab('pricing', event)">Pricing breakdown</div>
+    <div class="tab" onclick="switchTab('flight', event)">Flight details</div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="panel active" id="panel-overview">
+    <p class="section-label">Quick comparison</p>
+    <div class="cards">
+      <div class="card">
+        <div class="airline-header">
+          <div class="airline-icon" style="background:#FAECE7;"><i class="ti ti-plane" style="font-size:18px;color:#D85A30;" aria-hidden="true"></i></div>
+          <div>
+            <div class="airline-name">AirAsia</div>
+            <div class="airline-sub">Low cost · via KUL</div>
+          </div>
+        </div>
+        <div class="row"><span class="row-label">Base fare (return)</span><span class="row-val">$576.99</span></div>
+        <div class="row"><span class="row-label">Baggage included?</span><span class="row-val"><span class="badge badge-no">No</span></span></div>
+        <div class="row"><span class="row-label">Meals included?</span><span class="row-val"><span class="badge badge-no">No</span></span></div>
+        <div class="row"><span class="row-label">Stopover</span><span class="row-val">Kuala Lumpur (KLIA2)</span></div>
+        <div class="row"><span class="row-label">Layover (est.)</span><span class="row-val">~2–4 hrs</span></div>
+        <div class="row"><span class="row-label">+ baggage only</span><span class="row-val amber-text">$776.99</span></div>
+        <div class="row"><span class="row-label">+ full bundle</span><span class="row-val amber-text">$876.99</span></div>
+      </div>
+
+      <div class="card featured">
+        <div style="margin-bottom:6px;"><span class="badge badge-best">Best value overall</span></div>
+        <div class="airline-header">
+          <div class="airline-icon" style="background:#E6F1FB;"><i class="ti ti-plane" style="font-size:18px;color:#185FA5;" aria-hidden="true"></i></div>
+          <div>
+            <div class="airline-name">Singapore Airlines</div>
+            <div class="airline-sub">Full-service · via SIN</div>
+          </div>
+        </div>
+        <div class="row"><span class="row-label">Base fare (return)</span><span class="row-val blue-text"><strong>$736</strong></span></div>
+        <div class="row"><span class="row-label">Baggage included?</span><span class="row-val"><span class="badge badge-yes">Yes (25–30 kg)</span></span></div>
+        <div class="row"><span class="row-label">Meals included?</span><span class="row-val"><span class="badge badge-yes">Yes</span></span></div>
+        <div class="row"><span class="row-label">Stopover</span><span class="row-val">Singapore (Changi T3)</span></div>
+        <div class="row"><span class="row-label">Layover (est.)</span><span class="row-val">~2 hrs</span></div>
+        <div class="row"><span class="row-label">Total all-in</span><span class="row-val blue-text"><strong>$736</strong></span></div>
+        <div class="row"><span class="row-label">Add-ons needed?</span><span class="row-val"><span class="badge badge-yes">Nothing</span></span></div>
+      </div>
+    </div>
+
+    <div class="verdict">
+      <p class="section-label" style="margin-bottom:10px;">The verdict</p>
+      <div class="verdict-row">
+        <i class="ti ti-trophy verdict-icon" style="color:#185FA5;" aria-hidden="true"></i>
+        <span class="verdict-text">At $736 all-in vs $776.99 (AirAsia + baggage only), <strong>Singapore Airlines is now cheaper</strong> once you add even just a checked bag — and you get meals, Changi Airport, and proper full-service included.</span>
+      </div>
+      <div class="verdict-row">
+        <i class="ti ti-coin verdict-icon" style="color:#854F0B;" aria-hidden="true"></i>
+        <span class="verdict-text">AirAsia only wins if you travel carry-on only ($576.99). The moment you add a 20 kg bag ($200 return), SQ is already $40 cheaper — and far better on every other metric.</span>
+      </div>
+      <div class="verdict-row">
+        <i class="ti ti-luggage verdict-icon" style="color:#3B6D11;" aria-hidden="true"></i>
+        <span class="verdict-text">With the AirAsia full bundle (meal + 20 kg bag + duty-free voucher + 1 change fee) at $300 extra, total hits $876.99 — that's $141 more than SQ for a worse experience.</span>
+      </div>
+      <div class="verdict-row">
+        <i class="ti ti-info-circle verdict-icon" style="color:#888780;" aria-hidden="true"></i>
+        <span class="verdict-text">Traveloka fares can differ from booking direct with SQ. Worth double-checking at singaporeair.com to confirm $736 is still available for your exact dates before committing.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="panel" id="panel-pricing">
+    <p class="section-label">Side-by-side cost scenarios</p>
+    <div class="cards">
+      <div class="card">
+        <div class="airline-name" style="margin-bottom:12px;">AirAsia</div>
+
+        <p class="section-label">Carry-on only</p>
+        <div class="price-row"><span class="price-row-label">Base fare</span><span class="price-row-val">$576.99</span></div>
+        <div class="price-total"><span class="price-total-label">Total</span><span class="price-total-val">$576.99</span></div>
+
+        <div class="divider"></div>
+        <p class="section-label">+ 20 kg baggage ($100/flight)</p>
+        <div class="price-row"><span class="price-row-label">Base fare</span><span class="price-row-val">$576.99</span></div>
+        <div class="price-row"><span class="price-row-label">Baggage × 2 flights</span><span class="price-row-val">$200.00</span></div>
+        <div class="price-total"><span class="price-total-label">Total</span><span class="price-total-val amber-text">$776.99</span></div>
+
+        <div class="divider"></div>
+        <p class="section-label">Full bundle ($150/flight)</p>
+        <div class="price-row"><span class="price-row-label">Base fare</span><span class="price-row-val">$576.99</span></div>
+        <div class="price-row"><span class="price-row-label">Bundle × 2 flights</span><span class="price-row-val">$300.00</span></div>
+        <div style="font-size:11px;color:var(--color-text-tertiary);margin:2px 0 6px;line-height:1.5;">Meal + 20 kg bag + RM50 duty-free voucher + 1 zero-change fee</div>
+        <div class="price-total"><span class="price-total-label">Total</span><span class="price-total-val amber-text">$876.99</span></div>
+      </div>
+
+      <div class="card featured">
+        <div class="airline-name" style="margin-bottom:12px;">Singapore Airlines</div>
+
+        <p class="section-label">Economy (Traveloka price)</p>
+        <div class="price-row"><span class="price-row-label">Return fare</span><span class="price-row-val">$736.00</span></div>
+        <div class="price-row"><span class="price-row-label">Meals</span><span class="price-row-val green-text">Included ✓</span></div>
+        <div class="price-row"><span class="price-row-label">Checked bag (25 kg)</span><span class="price-row-val green-text">Included ✓</span></div>
+        <div class="price-row"><span class="price-row-label">Extra add-ons</span><span class="price-row-val green-text">None needed ✓</span></div>
+        <div class="price-total"><span class="price-total-label">Total all-in</span><span class="price-total-val blue-text">$736.00</span></div>
+
+        <div class="divider"></div>
+        <p class="section-label">How SQ compares</p>
+        <div class="price-row"><span class="price-row-label">vs AirAsia carry-on</span><span class="price-row-val amber-text">+$159 more</span></div>
+        <div class="price-row"><span class="price-row-label">vs AirAsia + bag</span><span class="price-row-val green-text">$41 cheaper ✓</span></div>
+        <div class="price-row"><span class="price-row-label">vs AirAsia full bundle</span><span class="price-row-val green-text">$141 cheaper ✓</span></div>
+
+        <div class="divider"></div>
+        <p class="section-label">Fare type inclusions (economy)</p>
+        <div class="row" style="padding:5px 0"><span class="row-label">Lite</span><span class="row-val">25 kg · meal · no changes</span></div>
+        <div class="row" style="padding:5px 0"><span class="row-label">Value</span><span class="row-val">25 kg · meal · 1 change</span></div>
+        <div class="row" style="padding:5px 0;border:none"><span class="row-label">Standard/Flexi</span><span class="row-val">30 kg · meal · changes</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLIGHT DETAILS -->
+  <div class="panel" id="panel-flight">
+    <p class="section-label">Itinerary & route info</p>
+    <div class="cards">
+      <div class="card">
+        <div class="airline-name" style="margin-bottom:4px;">AirAsia</div>
+        <div class="route-pill"><i class="ti ti-map-pin" style="font-size:12px;" aria-hidden="true"></i> via Kuala Lumpur · KLIA2</div>
+        <p class="section-label" style="margin-top:10px;">Outbound PER → HKG</p>
+        <div class="row"><span class="row-label">Route</span><span class="row-val">PER → KUL → HKG</span></div>
+        <div class="row"><span class="row-label">PER → KUL</span><span class="row-val">~5 hr 40 min</span></div>
+        <div class="row"><span class="row-label">Layover KUL</span><span class="row-val">~2–4 hrs</span></div>
+        <div class="row"><span class="row-label">KUL → HKG</span><span class="row-val">~3 hr 40 min</span></div>
+        <div class="row"><span class="row-label">Total trip time</span><span class="row-val">~11–14 hrs</span></div>
+        <p class="section-label" style="margin-top:12px;">Return HKG → PER</p>
+        <div class="row"><span class="row-label">Route</span><span class="row-val">HKG → KUL → PER</span></div>
+        <div class="row"><span class="row-label">HKG → KUL</span><span class="row-val">~4 hr 05 min</span></div>
+        <div class="row"><span class="row-label">Layover KUL</span><span class="row-val">~2–5 hrs</span></div>
+        <div class="row"><span class="row-label">KUL → PER</span><span class="row-val">~5 hr 30 min</span></div>
+        <div class="row" style="border:none"><span class="row-label">Terminal</span><span class="row-val"><span class="badge badge-warn">KLIA2 (budget)</span></span></div>
+      </div>
+
+      <div class="card featured">
+        <div class="airline-name" style="margin-bottom:4px;">Singapore Airlines</div>
+        <div class="route-pill"><i class="ti ti-map-pin" style="font-size:12px;" aria-hidden="true"></i> via Singapore · Changi T3</div>
+        <p class="section-label" style="margin-top:10px;">Outbound PER → HKG</p>
+        <div class="row"><span class="row-label">Route</span><span class="row-val">PER → SIN → HKG</span></div>
+        <div class="row"><span class="row-label">Departure PER</span><span class="row-val">01:15</span></div>
+        <div class="row"><span class="row-label">Arrival HKG</span><span class="row-val">11:20</span></div>
+        <div class="row"><span class="row-label">Airborne time</span><span class="row-val">~9 hr 10 min</span></div>
+        <div class="row"><span class="row-label">Layover SIN</span><span class="row-val">~2 hrs</span></div>
+        <p class="section-label" style="margin-top:12px;">Return HKG → PER</p>
+        <div class="row"><span class="row-label">Departure HKG</span><span class="row-val">18:50</span></div>
+        <div class="row"><span class="row-label">Arrival PER</span><span class="row-val">05:25 (+1 day)</span></div>
+        <div class="row"><span class="row-label">Airborne time</span><span class="row-val">~9 hr 20 min</span></div>
+        <div class="row"><span class="row-label">Terminal</span><span class="row-val"><span class="badge badge-info">Changi T3 ✈</span></span></div>
+        <div class="row" style="border:none"><span class="row-label">Bags checked through</span><span class="row-val"><span class="badge badge-yes">Yes — no re-claim at SIN</span></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(name, e) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  e.target.classList.add('active');
+}
+</script>
