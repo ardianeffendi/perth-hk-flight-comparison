@@ -3,48 +3,238 @@
     <h2 class="sr-only">Flight comparison dashboard: AirAsia vs Singapore Airlines, Perth to Hong Kong return</h2>
 
     <style>
+      * { transition: all 0.3s ease; }
+      body { background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%); }
+      
       .dash { padding: 1rem 0; font-size: 14px; }
+      
       .section-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 8px; }
+      
       .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-      .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
-      .card.featured { border: 2px solid #185FA5; }
+      
+      .card { 
+        background: var(--color-background-primary); 
+        border: 0.5px solid var(--color-border-tertiary); 
+        border-radius: var(--border-radius-lg); 
+        padding: 1rem 1.25rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        cursor: pointer;
+        transform: translateY(0);
+      }
+      
+      .card:hover { 
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        border-color: var(--color-border-primary);
+      }
+      
+      .card.featured { 
+        border: 2px solid #185FA5;
+        background: linear-gradient(135deg, #f0f7ff 0%, #e6f1fb 100%);
+      }
+      
+      .card.featured:hover {
+        box-shadow: 0 8px 24px rgba(24, 95, 165, 0.15);
+      }
+      
       .airline-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-      .airline-icon { width: 36px; height: 36px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; }
-      .airline-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+      
+      .airline-icon { 
+        width: 36px; 
+        height: 36px; 
+        border-radius: var(--border-radius-md); 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        font-size: 18px;
+      }
+      
+      .airline-name { font-size: 15px; font-weight: 600; color: var(--color-text-primary); }
+      
       .airline-sub { font-size: 12px; color: var(--color-text-secondary); }
-      .row { display: flex; justify-content: space-between; align-items: flex-start; padding: 7px 0; border-bottom: 0.5px solid var(--color-border-tertiary); gap: 8px; }
+      
+      .row { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: flex-start; 
+        padding: 9px 0; 
+        border-bottom: 0.5px solid var(--color-border-tertiary); 
+        gap: 8px;
+      }
+      
+      .row:hover { background-color: rgba(0, 0, 0, 0.02); padding-left: 4px; padding-right: 4px; }
+      
       .row:last-child { border-bottom: none; }
+      
       .row-label { color: var(--color-text-secondary); font-size: 13px; flex-shrink: 0; }
-      .row-val { font-size: 13px; color: var(--color-text-primary); text-align: right; }
-      .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 500; white-space: nowrap; }
-      .badge-yes { background: #EAF3DE; color: #3B6D11; }
-      .badge-no { background: #FCEBEB; color: #A32D2D; }
-      .badge-info { background: #E6F1FB; color: #185FA5; }
-      .badge-warn { background: #FAEEDA; color: #854F0B; }
-      .badge-best { background: #EAF3DE; color: #3B6D11; }
-      .price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; }
+      
+      .row-val { font-size: 13px; color: var(--color-text-primary); text-align: right; font-weight: 500; }
+      
+      .badge { 
+        display: inline-block; 
+        font-size: 11px; 
+        padding: 4px 10px; 
+        border-radius: 99px; 
+        font-weight: 600; 
+        white-space: nowrap;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+      }
+      
+      .badge-yes { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); color: #1B5E20; }
+      .badge-no { background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%); color: #C62828; }
+      .badge-info { background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); color: #0D47A1; }
+      .badge-warn { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); color: #E65100; }
+      .badge-best { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); color: #1B5E20; font-weight: 700; }
+      
+      .price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; }
       .price-row-label { font-size: 13px; color: var(--color-text-secondary); }
-      .price-row-val { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
-      .price-total { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0 0; border-top: 0.5px solid var(--color-border-secondary); margin-top: 6px; }
-      .price-total-label { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
-      .price-total-val { font-size: 18px; font-weight: 500; }
-      .green-text { color: #3B6D11; }
-      .blue-text { color: #185FA5; }
-      .amber-text { color: #854F0B; }
-      .verdict { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-top: 4px; }
-      .verdict-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+      .price-row-val { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
+      
+      .price-total { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: baseline; 
+        padding: 12px 0; 
+        border-top: 2px solid var(--color-border-secondary); 
+        margin-top: 8px;
+        background: linear-gradient(90deg, rgba(0,0,0,0.02) 0%, transparent 100%);
+        padding: 12px 8px;
+        border-radius: 6px;
+      }
+      
+      .price-total-label { font-size: 13px; font-weight: 600; color: var(--color-text-primary); }
+      .price-total-val { font-size: 20px; font-weight: 700; }
+      
+      .green-text { color: #1B5E20; font-weight: 600; }
+      .blue-text { color: #0D47A1; font-weight: 600; }
+      .amber-text { color: #E65100; font-weight: 600; }
+      
+      .verdict { 
+        background: linear-gradient(135deg, var(--color-background-secondary) 0%, rgba(0,0,0,0.02) 100%);
+        border-radius: var(--border-radius-lg); 
+        padding: 1.25rem; 
+        margin-top: 4px;
+        border-left: 4px solid #185FA5;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      
+      .verdict-row { 
+        display: flex; 
+        gap: 12px; 
+        align-items: flex-start; 
+        margin-bottom: 12px;
+        padding: 8px;
+        border-radius: 6px;
+        transition: background-color 0.2s ease;
+      }
+      
+      .verdict-row:hover { background-color: rgba(0, 0, 0, 0.04); }
+      
       .verdict-row:last-child { margin-bottom: 0; }
-      .verdict-icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
-      .verdict-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
-      .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-      .tab { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 6px 14px; font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-      .tab.active { background: var(--color-background-primary); border-color: var(--color-border-primary); color: var(--color-text-primary); font-weight: 500; }
-      .panel { display: none; }
+      
+      .verdict-icon { font-size: 18px; margin-top: 2px; flex-shrink: 0; }
+      
+      .verdict-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+      
+      .tabs { 
+        display: flex; 
+        gap: 8px; 
+        margin-bottom: 16px;
+        background: var(--color-background-secondary);
+        padding: 4px;
+        border-radius: var(--border-radius-md);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+      }
+      
+      .tab { 
+        background: transparent;
+        border: none;
+        border-radius: var(--border-radius-sm); 
+        padding: 8px 16px; 
+        font-size: 13px; 
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--color-text-secondary);
+        position: relative;
+      }
+      
+      .tab:hover { 
+        background-color: rgba(0, 0, 0, 0.04);
+        color: var(--color-text-primary);
+      }
+      
+      .tab.active { 
+        background: var(--color-background-primary); 
+        color: #185FA5;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(24, 95, 165, 0.2);
+      }
+      
+      .tab.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #185FA5, #0D47A1);
+        border-radius: 99px;
+      }
+      
+      .panel { 
+        display: none;
+        animation: fadeIn 0.3s ease-in;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
       .panel.active { display: block; }
-      .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 14px 0; }
-      .highlight-box { background: #E6F1FB; border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 16px; font-size: 13px; color: #0C447C; line-height: 1.5; }
-      .route-pill { display: inline-flex; align-items: center; gap: 4px; background: var(--color-background-secondary); border-radius: 99px; padding: 3px 10px; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
-      @media(max-width: 500px) { .cards { grid-template-columns: 1fr; } }
+      
+      .divider { 
+        border: none; 
+        border-top: 1px solid var(--color-border-tertiary); 
+        margin: 14px 0;
+        background: linear-gradient(90deg, transparent, var(--color-border-tertiary), transparent);
+      }
+      
+      .highlight-box { 
+        background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+        border-left: 4px solid #185FA5;
+        border-radius: var(--border-radius-md); 
+        padding: 14px 16px; 
+        margin-bottom: 16px; 
+        font-size: 13px; 
+        color: #0D47A1;
+        line-height: 1.6;
+        box-shadow: 0 2px 8px rgba(24, 95, 165, 0.1);
+      }
+      
+      .route-pill { 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 6px; 
+        background: linear-gradient(135deg, var(--color-background-secondary) 0%, rgba(0,0,0,0.04) 100%);
+        border-radius: 99px; 
+        padding: 6px 12px; 
+        font-size: 12px; 
+        color: var(--color-text-secondary);
+        font-weight: 500;
+        border: 1px solid var(--color-border-tertiary);
+      }
+      
+      .route-pill:hover {
+        background: linear-gradient(135deg, rgba(24, 95, 165, 0.1) 0%, rgba(13, 71, 161, 0.05) 100%);
+        border-color: #185FA5;
+      }
+      
+      @media(max-width: 500px) { 
+        .cards { grid-template-columns: 1fr; } 
+        .tabs { flex-direction: column; }
+        .tab { width: 100%; text-align: left; }
+      }
     </style>
 
     <div class="dash">
@@ -67,7 +257,7 @@
         <div class="cards">
           <div class="card">
             <div class="airline-header">
-              <div class="airline-icon" style="background:#FAECE7;"><i class="ti ti-plane" style="font-size:18px;color:#D85A30;" aria-hidden="true"></i></div>
+              <div class="airline-icon" style="background:linear-gradient(135deg, #FFDFCE 0%, #FFB399 100%);"><i class="ti ti-plane" style="font-size:18px;color:#D85A30;" aria-hidden="true"></i></div>
               <div>
                 <div class="airline-name">AirAsia</div>
                 <div class="airline-sub">Low cost · via KUL</div>
@@ -83,9 +273,9 @@
           </div>
 
           <div class="card featured">
-            <div style="margin-bottom:6px;"><span class="badge badge-best">Best value overall</span></div>
+            <div style="margin-bottom:6px;"><span class="badge badge-best">✨ Best value overall</span></div>
             <div class="airline-header">
-              <div class="airline-icon" style="background:#E6F1FB;"><i class="ti ti-plane" style="font-size:18px;color:#185FA5;" aria-hidden="true"></i></div>
+              <div class="airline-icon" style="background:linear-gradient(135deg, #D1E7FF 0%, #A8D4FF 100%);"><i class="ti ti-plane" style="font-size:18px;color:#0D47A1;" aria-hidden="true"></i></div>
               <div>
                 <div class="airline-name">Singapore Airlines</div>
                 <div class="airline-sub">Full-service · via SIN</div>
@@ -104,19 +294,19 @@
         <div class="verdict">
           <p class="section-label" style="margin-bottom:10px;">The verdict</p>
           <div class="verdict-row">
-            <i class="ti ti-trophy verdict-icon" style="color:#185FA5;" aria-hidden="true"></i>
-            <span class="verdict-text">At $736 all-in vs $776.99 (AirAsia + baggage only), <strong>Singapore Airlines is now cheaper</strong> once you add even just a checked bag — and you get meals, Changi Airport, and proper full-service included.</span>
+            <i class="ti ti-trophy verdict-icon" style="color:#1976D2;" aria-hidden="true"></i>
+            <span class="verdict-text">At $736 all-in vs $776.99 (AirAsia + baggage only), <strong>Singapore Airlines is now cheaper</strong> once you add even just a checked bag — and you get better service.</span>
           </div>
           <div class="verdict-row">
-            <i class="ti ti-coin verdict-icon" style="color:#854F0B;" aria-hidden="true"></i>
-            <span class="verdict-text">AirAsia only wins if you travel carry-on only ($576.99). The moment you add a 20 kg bag ($200 return), SQ is already $40 cheaper — and far better on every other metric.</span>
+            <i class="ti ti-coin verdict-icon" style="color:#E65100;" aria-hidden="true"></i>
+            <span class="verdict-text">AirAsia only wins if you travel carry-on only ($576.99). The moment you add a 20 kg bag ($200 return), SQ is already $40 cheaper — and far better on every front.</span>
           </div>
           <div class="verdict-row">
-            <i class="ti ti-luggage verdict-icon" style="color:#3B6D11;" aria-hidden="true"></i>
-            <span class="verdict-text">With the AirAsia full bundle (meal + 20 kg bag + duty-free voucher + 1 change fee) at $300 extra, total hits $876.99 — that's $141 more than SQ for a worse experience.</span>
+            <i class="ti ti-luggage verdict-icon" style="color:#1B5E20;" aria-hidden="true"></i>
+            <span class="verdict-text">With the AirAsia full bundle (meal + 20 kg bag + duty-free voucher + 1 change fee) at $300 extra, total hits $876.99 — that's $141 more than SQ for a worse trip.</span>
           </div>
           <div class="verdict-row">
-            <i class="ti ti-info-circle verdict-icon" style="color:#888780;" aria-hidden="true"></i>
+            <i class="ti ti-info-circle verdict-icon" style="color:#424242;" aria-hidden="true"></i>
             <span class="verdict-text">Traveloka fares can differ from booking direct with SQ. Worth double-checking at singaporeair.com to confirm $736 is still available for your exact dates before committing.</span>
           </div>
         </div>
