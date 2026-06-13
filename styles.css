@@ -1,0 +1,438 @@
+/* ============================================================
+   Flight Comparison Dashboard — styles.css
+   Mobile-first · Flexbox · Inter + DM Mono
+   ============================================================ */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+/* --- Reset & Base --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Palette */
+  --clr-bg:          #F7F8FA;
+  --clr-surface:     #FFFFFF;
+  --clr-border:      #E4E7ED;
+  --clr-border-soft: #EEF0F4;
+
+  --clr-text-primary:   #18191C;
+  --clr-text-secondary: #5C6070;
+  --clr-text-muted:     #9299A8;
+
+  --clr-blue:        #1A5FCC;
+  --clr-blue-light:  #EBF1FC;
+  --clr-blue-mid:    #C3D8F8;
+
+  --clr-green:       #1A7A4A;
+  --clr-green-light: #E8F6EE;
+  --clr-green-mid:   #B6E4CB;
+
+  --clr-amber:       #A3510A;
+  --clr-amber-light: #FEF3E7;
+
+  --clr-red:         #B91C1C;
+  --clr-red-light:   #FEE8E8;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+
+  /* Radius */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+  --radius-pill: 999px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;       /* 14px */
+  line-height: 1.6;
+  color: var(--clr-text-primary);
+  background-color: var(--clr-bg);
+  padding: var(--space-4);
+  min-height: 100vh;
+}
+
+/* --- Layout wrapper --- */
+.dashboard {
+  width: 100%;
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+/* --- Meta line --- */
+.meta {
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+  margin-bottom: var(--space-4);
+  letter-spacing: 0.01em;
+}
+
+/* --- Highlight banner --- */
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  background-color: var(--clr-blue-light);
+  border-left: 3px solid var(--clr-blue);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-5);
+  font-size: 0.8125rem;
+  color: #0D3A8E;
+  line-height: 1.5;
+}
+
+.banner__icon {
+  flex-shrink: 0;
+  font-size: 1rem;
+  margin-top: 1px;
+}
+
+/* --- Tabs --- */
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+  background-color: var(--clr-border-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-1);
+  margin-bottom: var(--space-5);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  flex: 1 1 auto;
+  min-width: max-content;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--clr-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tab:hover {
+  color: var(--clr-text-primary);
+}
+
+.tab[aria-selected="true"] {
+  background-color: var(--clr-surface);
+  color: var(--clr-blue);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Panel --- */
+.panel {
+  display: none;
+}
+
+.panel[aria-hidden="false"] {
+  display: block;
+  animation: fadeSlide 0.22s ease-out both;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Section label --- */
+.section-label {
+  font-size: 0.6875rem;    /* 11px */
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: var(--space-3);
+}
+
+/* --- Card grid --- */
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+/* --- Card --- */
+.card {
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+
+.card--featured {
+  border: 2px solid var(--clr-blue);
+  background-color: #FAFCFF;
+}
+
+/* --- Airline header --- */
+.airline-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.airline-icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+}
+
+.airline-icon--airasia  { background-color: #FFEEE7; }
+.airline-icon--sq       { background-color: var(--clr-blue-light); }
+
+.airline-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--clr-text-primary);
+}
+
+.airline-sub {
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+  margin-top: 1px;
+}
+
+/* --- Data rows --- */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 9px 0;
+  border-bottom: 1px solid var(--clr-border-soft);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row__label {
+  font-size: 0.8125rem;
+  color: var(--clr-text-secondary);
+  flex-shrink: 0;
+}
+
+.row__value {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--clr-text-primary);
+  text-align: right;
+}
+
+/* --- Badges --- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.badge--yes    { background-color: var(--clr-green-light); color: var(--clr-green); }
+.badge--no     { background-color: var(--clr-red-light);   color: var(--clr-red);   }
+.badge--info   { background-color: var(--clr-blue-light);  color: var(--clr-blue);  }
+.badge--warn   { background-color: var(--clr-amber-light); color: var(--clr-amber); }
+.badge--best   { background-color: var(--clr-green-light); color: var(--clr-green); }
+
+/* --- Price rows --- */
+.price-group {
+  margin-bottom: var(--space-4);
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: 6px 0;
+}
+
+.price-row__label { font-size: 0.8125rem; color: var(--clr-text-secondary); }
+.price-row__value { font-size: 0.8125rem; font-weight: 600; color: var(--clr-text-primary); }
+
+.price-row__value--blue  { color: var(--clr-blue); }
+.price-row__value--green { color: var(--clr-green); }
+.price-row__value--amber { color: var(--clr-amber); }
+
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1.5px solid var(--clr-border);
+  margin-top: var(--space-2);
+}
+
+.price-total__label { font-size: 0.8125rem; font-weight: 600; }
+
+.price-total__value {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.price-total__value--blue  { color: var(--clr-blue); }
+.price-total__value--amber { color: var(--clr-amber); }
+
+.price-note {
+  font-size: 0.6875rem;
+  color: var(--clr-text-muted);
+  line-height: 1.5;
+  margin: 2px 0 var(--space-3);
+}
+
+/* --- Divider --- */
+.divider {
+  border: none;
+  border-top: 1px solid var(--clr-border-soft);
+  margin: var(--space-4) 0;
+}
+
+/* --- Verdict box --- */
+.verdict {
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-left: 3px solid var(--clr-blue);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.verdict__row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+}
+
+.verdict__row:not(:last-child) {
+  margin-bottom: var(--space-1);
+}
+
+.verdict__row:hover {
+  background-color: var(--clr-bg);
+}
+
+.verdict__icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.verdict__text {
+  font-size: 0.8125rem;
+  color: var(--clr-text-secondary);
+  line-height: 1.6;
+}
+
+.verdict__text strong {
+  color: var(--clr-text-primary);
+  font-weight: 600;
+}
+
+/* --- Route pill --- */
+.route-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+  font-weight: 500;
+  margin-bottom: var(--space-3);
+}
+
+/* --- Utility colours --- */
+.text-blue  { color: var(--clr-blue); }
+.text-green { color: var(--clr-green); }
+.text-amber { color: var(--clr-amber); }
+
+/* ============================================================
+   RESPONSIVE — tablet and up (≥ 600px)
+   ============================================================ */
+@media (min-width: 600px) {
+  body { padding: var(--space-6); }
+
+  .cards {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .card {
+    flex: 1 1 0;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — desktop (≥ 860px)
+   ============================================================ */
+@media (min-width: 860px) {
+  body { padding: var(--space-6) var(--space-4); }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
